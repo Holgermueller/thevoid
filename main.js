@@ -21,23 +21,27 @@ camera.position.setX(-3);
 
 renderer.render(scene, camera);
 
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-const material = new THREE.MeshStandardMaterial({ color: 0xff6347 });
-const torus = new THREE.Mesh(geometry, material);
+const geometry = new THREE.TorusKnotGeometry(9.956, 3, 300, 20, 2, 3);
+const material = new THREE.MeshLambertMaterial({
+  color: 0x049ef4,
+  opacity: 1,
+  depthTest: true,
+  depthWrite: true,
+});
+const torusKnot = new THREE.Mesh(geometry, material);
+scene.add(torusKnot);
 
-scene.add(torus);
-
-const pointlight = new THREE.PointLight(0xffffff);
+const pointlight = new THREE.PointLight(0x000000);
 pointlight.position.set(5, 5, 5);
-const ambientLight = new THREE.AmbientLight(0xffffff);
+const ambientLight = new THREE.AmbientLight(0x000000);
 scene.add(pointlight, ambientLight);
 
 function animate() {
   requestAnimationFrame(animate);
 
-  torus.rotation.x += 0.01;
-  torus.rotation.y += 0.005;
-  torus.rotation.z += 0.01;
+  torusKnot.rotation.x += 0.01;
+  torusKnot.rotation.y += 0.005;
+  torusKnot.rotation.z += 0.01;
 
   renderer.render(scene, camera);
 }
