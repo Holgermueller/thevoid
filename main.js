@@ -31,10 +31,25 @@ const material = new THREE.MeshLambertMaterial({
 const torusKnot = new THREE.Mesh(geometry, material);
 scene.add(torusKnot);
 
-const pointlight = new THREE.PointLight(0x000000);
+const pointlight = new THREE.PointLight(0xffffff);
 pointlight.position.set(5, 5, 5);
-const ambientLight = new THREE.AmbientLight(0x000000);
+const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(pointlight, ambientLight);
+
+function addStars() {
+  const geometry = new THREE.SphereGeometry(0.25, 12, 12);
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  const star = new THREE.Mesh(geometry, material);
+
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+Array(200).fill().forEach(addStars);
 
 function animate() {
   requestAnimationFrame(animate);
@@ -47,3 +62,36 @@ function animate() {
 }
 
 animate();
+
+const countDownDate = new Date("Aug 9, 2023").getTime();
+
+const x = setInterval(function () {
+  let now = new Date().getTime();
+
+  let difference = countDownDate - now;
+
+  let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+
+  let hours = Math.floor(
+    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+
+  let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+  let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+  document.getElementById("theCountdown").innerHTML =
+    days +
+    " days: " +
+    hours +
+    " hours: " +
+    minutes +
+    " minutes: " +
+    seconds +
+    " seconds";
+
+  if (difference < 0) {
+    clearInterval(x);
+    document.getElementById("theCountdown").innerHTML = "TIME'S UP!!";
+  }
+}, 1000);
